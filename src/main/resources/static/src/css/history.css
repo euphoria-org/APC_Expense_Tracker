@@ -1,0 +1,32 @@
+.main {
+    margin-left:224px ;
+    background-color: #272727;
+    font-family: "Poppins";
+}
+
+.m-h-l-searchbar,.m-b-r-bottom,.main-history-container{
+    background-color: #303131;
+}
+
+.m-h-c-header-left,.header-from-date,.header-to-date,.history-list-entry{
+    background-color: #484a4a;
+}
+
+.history-entry-check{
+    background-color: #E8F167;
+}
+
+.history-list-entry:hover {
+    background-color: #E8F167;
+}
+
+.main-history-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 1;
+    font-size: x-large;
+    margin-left: -2px;
+}

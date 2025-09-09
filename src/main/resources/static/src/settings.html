@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="/src/output.css" rel="stylesheet">
+    <link href="/src/css/sidebar.css" rel="stylesheet">
+    <link href="/src/css/settings.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar w-56 h-full flex flex-col fixed justify-between font-sans text-gray-300 text-base p-6">
+        <div class="sidebar-top">
+            <div class="s-top-logo"><div class="sidebar-header flex items-center gap-1 mb-8 rounded-full py-4 text-2xl font-semibold"><i class="fa-solid fa-prescription fa-lg"></i>Pocket-Dex</div></div>
+            <div class="home px-2 py-2 mb-4 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-house fa-lg"></i>Home</div>
+            <div class="Dashboard px-2 py-2 mb-4 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-layer-group fa-lg"></i> <a href="/src/dashboard.html">Dashboard</a></div>
+            <div class="wallet px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-wallet fa-lg"></i>Wallet</div>
+            <div class="history px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-clock-rotate-left fa-lg"></i> <a href="/src/history.html">History</a></div>
+            <div class="profile px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-user fa-lg"></i>Profile</div>
+        </div>
+        <div class="sidebar-bottom border-t-2 py-4">
+            <div class="settings px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-gear fa-lg"></i>settings</div>
+            <div class="logout px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i><a href="/login">logout</a></div>
+        </div>
+    </div>
+
+    <div class="main-body p-4 h-screen flex gap-4">
+        <div class="main-body-left bg min-w-60 px-6 py-4 rounded-xl max-h-40">
+            <div class="m-b-l-container flex flex-col gap-2">
+                <div class="m-b-l-c-heading text-gray-300  font-semibold text-md">
+                    <i class="fa-solid fa-gears fa-lg"></i> Settings
+                </div>
+                <div class="m-b-l-c-section text-xl font-semibold px-2 py-3 rounded-xl text-gray-800">
+                     wallet 
+                </div>
+            </div>
+        </div>
+        <div class="main-body-right p-4 w-full rounded-xl">
+            <div class="m-b-r-c">
+                <div class="m-b-c-heading px-2 flex justify-between pb-2 items-center">
+                    <div class="m-b-c-heading-text text-2xl text-gray-300 font-semibold">
+                        Settings
+                    </div>
+
+                    <div class="m-b-c-heading-button text-gray-400 font-semibold rounded-xl hover:text-gray-800 p-2 cursor-pointer hover:font-bold ease-in-out ">
+                        save changes
+                    </div>
+                </div>
+                <div class="m-b-c-cards">
+                    <div class="m-b-c-card flex justify-between items-center gap-4 px-6 py-2 border-b-2 text-gray-400 ">
+
+                        <div class="m-b-c-body flex gap-4 items-center">
+
+                            
+                            <div class="m-b-c-left bg-yellow-300 rounded-full">
+                                <div class="m-b-c-icon p-4 text-gray-800">
+                                    <i class="fa-regular fa-credit-card fa-2xl"></i>
+                                </div>
+                            </div>
+
+                            <div class="m-b-c-right">
+                                <div class="m-b-c-heading">
+                                    Change Budget
+                                </div>
+        
+                                <div class="m-b-c-subtext">
+                                    You can change your budget here
+                                </div>
+                            </div>                  
+    
+                        </div> 
+                        <div class="m-b-c-input">
+                            <input class="change-budget-input rounded-xl px-2 py-2 border-2 border-yellow-300 text-gray-300" type="number" placeholder="new budget">
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script src="https://kit.fontawesome.com/0010a0ae9f.js" crossorigin="anonymous"></script>
+<script src="/src/js/settings.js"></script>
+</html>

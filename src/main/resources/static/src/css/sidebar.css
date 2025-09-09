@@ -1,0 +1,20 @@
+
+*{
+    font-family: 'Poppins';
+}
+
+.sidebar{
+    background-color: #303131;
+}
+
+.sidebar-header {
+    color: #E8F167;
+}
+
+.sidebar-top > div:hover , .sidebar-bottom > div:hover ,.sidebar-hover {
+    background-color: #E8F167;
+    /* color: #000; */
+    border-radius: 0.5rem;
+}
+
+

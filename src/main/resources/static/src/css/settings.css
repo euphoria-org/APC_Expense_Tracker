@@ -1,0 +1,13 @@
+.main-body{
+    margin-left:224px ;
+    background-color: #272727;
+    font-family: "Poppins";
+}
+
+.main-body-left , .main-body-right ,.change-budget-input{
+    background-color: #303131;
+}
+
+.m-b-l-c-section , .m-b-c-heading-button:hover{
+    background-color: #E8F167
+}

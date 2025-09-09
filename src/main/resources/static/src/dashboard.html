@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>side-bar</title>
+    <link href="/src/output.css" rel="stylesheet">
+    <link href="/src/css/sidebar.css" rel="stylesheet">
+    <link href="/src/css/dashboard.css" rel="stylesheet">
+<!--    <link href="./output.css" rel="stylesheet">-->
+<!--    <link href="./css/sidebar.css" rel="stylesheet">-->
+<!--    <link href="./css/dashboard.css" rel="stylesheet">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="sidebar w-56 h-full flex flex-col fixed justify-between font-sans text-gray-300 text-base p-6">
+        <div class="sidebar-top">
+            <div class="s-top-logo"><div class="sidebar-header flex items-center gap-1 mb-8 rounded-full py-4 text-2xl font-semibold"><i class="fa-solid fa-prescription fa-lg"></i>Pocket-Dex</div></div>
+            <div class="home px-2 py-2 mb-4 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-house fa-lg"></i><a href="/src/about.html">Home</a></div>
+            <div class="Dashboard px-2 py-2 mb-4 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-layer-group fa-lg"></i> <a href="/src/dashboard.html">Dashboard</a></div>
+            <div class="wallet px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-wallet fa-lg"></i>Wallet</div>
+            <div class="history px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-clock-rotate-left fa-lg"></i> <a href="/src/history.html">History</a></div>
+            <div class="profile px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-user fa-lg"></i>Profile</div>
+        </div>
+        <div class="sidebar-bottom border-t-2 py-4">
+            <div class="settings px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-gear fa-lg"></i><a href="/src/settings.html">Settings</div>
+            <div class="logout px-2 mb-4 py-2 inline-flex items-center gap-2 font-semibold hover:text-gray-800 hover:font-bold ease-in-out duration-300"><i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i><a href="/login">Logout</a></div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="main-header flex justify-between pl-8 pt-6">
+            <div class="m-header-l">
+                <div class="m-h-l-searchbar pl-6 pr-72 py-2 rounded-2xl text-gray-300">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Search
+                </div>
+            </div>
+
+            <div class="m-header-r pr-14 text-gray-300 flex gap-5 items-center">
+                <div class="user-greet text-gray-300 font-semibold text-xl">
+                    Hello, User
+                </div>
+                <i class="fa-solid fa-bell fa-rotate-by fa-xl" style="--fa-rotate-angle: 40deg;"></i>
+            </div>
+        </div>
+
+        <div class="main-toast-trans-success-cont pt-4 px-8 hidden">
+            <div class="main-toast-trans-success flex border-lime-700 items-center gap-4 py-4 px-4 rounded-2xl">
+                <div class="m-t-logo">
+                    <i class="fa-regular fa-circle-check text-5xl text-lime-700"></i>
+                </div>
+                <div class="m-t-text">
+                    <div class="m-t-text-title text-gray-300 font-semibold">Congratulations</div>
+                    <div class="m-t-text-subtext text-gray-400">Your transaction has been successfully added</div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="main-toast-trans-failed-cont pt-4 px-8 hidden">
+            <div class="main-toast-trans-failed flex border-red-700 items-center gap-4 py-4 px-4 rounded-2xl">
+                <div class="m-t-logo">
+                    <i class="fa-solid fa-circle-exclamation text-5xl text-red-700"></i>
+                </div>
+                <div class="m-t-text">
+                    <div class="m-t-text-title text-gray-300 font-semibold">Declined </div>
+                    <div class="m-t-text-subtext text-gray-400"> your transaction was declined due to exceeding budget limits.</div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="main-toast-budget-limit-cont pt-4 px-8 hidden">
+            <div class="main-toast-budget-limit flex border-orange-700 items-center gap-4 py-4 px-4 rounded-2xl">
+                <div class="m-t-logo">
+                    <i class="fa-solid fa-arrow-trend-up text-5xl text-orange-700"></i>
+                </div>
+                <div class="m-t-text">
+                    <div class="m-t-text-title text-gray-300 font-semibold">Balance Warning</div>
+                    <div class="m-t-text-subtext text-gray-400"> you have exhausted 80% of your balance .</div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="main-body flex py-4 justify-between">
+           
+            <div class="m-body-center flex-col  py-2 pl-10 w-full">
+                <div class="main-body-date text-gray-300 font-semibold px-1 flex items-center gap-2 text-lg">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div class="main-body-date-text">
+                        
+                    </div>
+                </div>
+                <div class="m-b-c-row1 flex py-4 justify-between">
+                    <div class="row1-budget rounded-3xl pl-8 flex justify-between w-full">
+                        <div class="budget-left-text mt-8 ">
+                            <div class="row1-budget-text text-lg">
+                                Budget
+                            </div>
+                            <div class="row1-budget-amount text-2xl font-semibold">
+                                Rs 0000
+                            </div>
+                        </div>
+
+                        <div class="budget-right-text flex flex-col justify-between py-2">
+                            <div class="budget-sort pr-6 text-md font-semibold">
+                                all time 
+                                <!-- <i class="fa-solid fa-angle-down fa-sm"></i> -->
+                            </div>
+                            <div class="budget-growth text-gray-800 font-medium mb-3 ml-3">
+                                <i class="fa-solid fa-arrow-up-right-dots fa-2xl"></i> 
+                            </div>
+                        </div>
+                       
+                    </div>
+                    
+                    <div class="row1-balance flex rounded-3xl pl-8 justify-between min-h-32 w-full">
+                        <div class="balance-left-text mt-8">
+                            <div class="row1-balance-text text-lg">
+                                Balance
+                            </div>
+                            <div class="row1-balance-amount text-2xl font-semibold">
+                                Rs 0000
+                            </div>
+                        </div>
+
+                        <div class="balance-right-text flex flex-col justify-between py-2">
+                            <div class="balance-sort pr-6 text-md font-semibold">
+                                all time
+                                <!-- <i class="fa-solid fa-angle-down fa-sm"></i> -->
+                            </div>
+                            <div class="balance-growth  text-gray-800 font-medium mb-3 ml-3 mr-2">
+                                <i class="fa-solid fa-arrow-up-right-dots fa-2xl"></i> 
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    <div class="row1-expense rounded-3xl flex  pl-8 justify-between w-full">
+                        <div class="expense-left-text mt-8">
+                            <div class="row1-expense-text text-lg">
+                                Expense
+                            </div>
+    
+                            <div class="row1-expense-amount text-2xl font-semibold">
+                                Rs 0000
+                            </div>
+                        </div>
+
+                        <div class="expense-right-text flex flex-col justify-between py-2">
+                            <div class="expense-sort text-md font-semibold pr-6">
+                                all time 
+                                <!-- <i class="fa-solid fa-angle-down fa-sm"></i> -->
+                            </div>
+                            <div class="expense-growth text-gray-800 font-medium mb-3 ml-3">
+                                <i class="fa-solid fa-arrow-up-right-dots fa-2xl"></i> 
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+                <div class="m-b-c-row2 w-full">
+                    <div class="row2-chart-container p-7">
+                        <div class="row2-header  flex justify-between">
+                            <div class="row2-header-left text-gray-300 text-xl font-semibold">
+                                Total Expense
+                            </div>
+                            <div class="row2-header-right flex gap-6">
+                                <div class="row2-h-r-year text-lg text-zinc-500 font-semibold ease-in-out duration-300 cursor-pointer">Year</div>
+                                <div class="row2-h-r-month text-lg text-zinc-500 font-semibold ease-in-out duration-300 cursor-pointer">Month</div>
+                                <div class="row2-h-r-day text-lg text-gray-300 font-semibold ease-in-out duration-300 cursor-pointer">Week</div>
+                            </div>
+                        </div>
+                        <canvas id="row2-chart"></canvas>
+                    </div>
+                </div>
+
+
+                <div class="m-b-c-row3 flex ">
+                    <div class="row3-history p-6 min-w-30 flex-1 w-0">
+                        <div class="row3-h-header  mb-2 flex justify-between">
+                            <div class="row3-h-h-left text-xl text-gray-300 font-semibold">Recent Transactions</div>
+                            <div class="row3-h-h-right text-gray-300 text-md mr-2 pt-2 font-semibold pr-4"> all time</div>
+                        </div>
+                        <div class="row3-h-list flex-col">
+                        </div>
+                    </div>
+
+                    <div class="row3-chart-container pt-6 px-6 flex-1 w-0">
+                        <div class="row3-chart-header  mb-2 flex justify-between">
+                            <div class="row3-c-h-left text-xl text-gray-300 font-semibold">Transaction Frequency</div>
+                            <div class="row3-c-h-right text-md text-gray-400 font-semibold">
+                                <select class="row-3-chart-options">
+                                    <option>weekly</option>
+                                    <option>monthly</option>
+                                    <option>Yearly</option>
+                                </select>
+                            </i></div>
+                        </div>
+                        <canvas id="row3-chart" class="h-full"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-body-right py-8 px-8 flex flex-col gap-3">
+                <div class="m-b-r-top pt-6 pb-12 my-4 px-8 min-w-80">
+                    <div class="m-b-r-top-header flex justify-between items-center">
+                        <div class="m-b-r-top-h-left text-gray-300 text-xl font-semibold">Transaction</div>
+                        <button class="m-b-r-top-form-submit m-b-r-top-h-right text-lg text-gray-400 font-semibold hover:text-black rounded-xl p-1 hover:text-md hover:font-bold hover:p-2 ease-in-out duration-300" type="submit"><i class="fa-solid fa-plus fa-sm"></i> Add </button>
+                    </div>
+
+                    <form class="m-b-r-top-form pt-5 flex flex-col gap-3 ">
+                        <div class="m-b-r-top-form-amount-container border-b-2 flex flex-col">
+                            <div class="m-b-r-top-form-amount-container-header pl-1 text-gray-400 font-semibold text-lg">Amount</div>
+                            <div class="input-amount-flex"><input class="m-b-r-top-form-amount text-white px-4 font-semibold text-3xl max-w-60 border-0 placeholder:text-gray-300"><i class="fa-solid fa-indian-rupee-sign text-2xl text-gray-200"></i></div>     
+                        </div>
+
+                        <div class="m-b-r-t-title-container pt-1 border-b-2">
+                            <div class="m-b-r-t-title-header pl-1 text-gray-400 font-semibold text-sm">Title</div>
+                            <input class="m-b-r-top-form-title text-white px-4 font-semibold text-md max-w-60 border-0 placeholder:text-gray-300" type="text">
+                        </div>
+
+                        <div class="m-b-r-t-f-date-container pt-1 border-b-2">
+                            <div class="m-b-r-t-title-header pl-1 text-gray-400 font-semibold text-sm">Date</div>
+                            <input class="m-b-r-top-form-date text-white pl-4 font-semibold text-md w-full border-0 placeholder:text-gray-300"type="date">
+                        </div>
+
+                        <div class="m-b-r-t-f-category-container pt-1 border-b-2">
+                            <div class="m-b-r-t-title-header pl-1 text-gray-400 font-semibold text-sm">Expenses Made for</div>
+                            <select class="m-b-r-top-form-category text-white px-4 font-semibold text-md border-0 w-full">
+                                <option>Category</option>
+                                <option>Food</option>
+                                <option>Educational expenses</option>
+                                <option>Transportation</option>
+                                <option>Entertainment</option>
+                                <option>Utilities</option>
+                                <option>Healthcare</option>
+                                <option>Shopping</option>
+                                <option>Travel</option>
+                                <option>Home improvement</option>
+                                <option>Gifts & Donations</option>
+                                <option>Insurance</option>
+                                <option>Investments</option>
+                                <option>Debt Payments</option>
+                                <option>Subscriptions</option>
+                                <option>Personal Care</option>
+                                <option>Electronics</option>
+                                <option>Others</option>
+                            </select>
+                        </div>
+
+                        
+                        <!-- <input class="m-b-r-top-form-title px-2 py-1 rounded-xl bg-zinc-700" placeholder="Title" type="text">
+                        <input class="m-b-r-top-form-date px-2 py-1 rounded-xl bg-zinc-700" placeholder="Date" type="date">
+                        
+                        <select class="wallet">
+                            <option>savings</option>
+                        </select> -->
+                        <!-- <button class="m-b-r-top-form-submit rounded-xl px-2 py-1 font-semibold">Submit</button> -->
+                    </form>
+
+                    <!-- <div class="m-b-r-top-card flex flex-col gap-4 mt-2 px-5 py-6 mt-3 rounded-2xl">
+                        <div class="card-header flex justify-between ">
+                            <div class="card-amount text-lg font-semibold">
+                                Rs 0000
+                            </div>--
+                            <div class="card-logo text-xl font-semibold">
+                                VISA
+                            </div>
+                        </div>
+
+                        <div class="card-wallet-number text-xl font-bold ">
+                            900000000                        
+                        </div>
+
+                        <div class="card-footer flex justify-between">
+                            <div class="card-holder-name text-md font-semibold">Lorem</div>
+                            <div class="card-date text-lg font-semibold">2023-5-16</div>
+                        </div>
+                    </div> -->
+                    
+                </div>
+                
+                <div class="m-b-r-bottom rounded-2xl">
+                    <div class="m-b-r-b-header px-6 pt-6 flex justify-between">
+                        <div class="m-b-r-b-header-left text-gray-300 text-xl font-semibold">All expenses</div>
+                        <div class="m-b-r-b-header-right text-gray-400 font-semibold">
+                            <select class="m-b-r-bottom-chart-selection">
+                                <option>all time</option>
+                                <option>this month</option>
+                                <option>this year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="m-b-r-bottom-chart-container py-6">
+                        <canvas id="bottom-doughnut-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script src="https://kit.fontawesome.com/0010a0ae9f.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/src/js/centerchart.js"></script>
+<script src="/src/js/dashboard.js"></script>
+<script src="/src/js/row3chart.js"></script>
+<script src="/src/js/doughnut-chart.js"></script>
+
+<!--<script src="./js/centerchart.js"></script>-->
+<!--<script src="./js/row3chart.js"></script>-->
+<!--<script src="./js/doughnut-chart.js"></script>-->
+<!--<script src="./js/dashboard.js"></script>-->
+</html>

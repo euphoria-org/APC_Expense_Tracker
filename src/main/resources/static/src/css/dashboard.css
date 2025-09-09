@@ -1,0 +1,100 @@
+.main {
+    margin-left:224px ;
+    background-color: #272727;
+    font-family: "Poppins";
+}
+
+input[type="text"], input[type="password"], textarea {
+    border: none !important;
+    outline: none !important;
+  }
+
+.m-body-center {
+    min-width: 900px;
+}
+
+.m-body-right{
+    flex-grow: 2;
+}
+
+.m-b-c-row1{
+    gap:2rem;
+}
+
+.row1-budget,.m-b-r-top-form-submit:hover{
+    background-color: #E8F167;
+    
+}
+
+.row1-balance {
+    background-color: #8BF167;
+}
+
+.row1-expense{
+    background-color: #1DAFA6;
+}
+
+
+.row2-chart-container,.row3-history,.row3-chart-container,.m-b-r-top{
+    position: relative;
+    background-color: #303131;
+    border-radius: 1rem;
+}
+
+.m-h-l-searchbar,.m-b-r-bottom,.m-b-r-top-form-amount,.m-b-r-top-form-title,.m-b-r-top-form-date,.m-b-r-top-form-category,.row-3-chart-options,.m-b-r-bottom-chart-selection{
+    background-color: #303131;
+}
+
+#row2-chart{
+    width: 100%;
+    max-height: 16rem;
+    width: 100%;
+}
+
+.m-b-c-row3{
+    margin-top: 1.5rem;
+    gap:2rem;
+}
+
+/* .row3-history , .row3-chat{
+    flex-grow: 1;
+} */
+
+.row3-h-list{
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* #row3-chart{
+    height:80%;
+} */
+
+.m-b-r-top-card{
+    background-image: linear-gradient(to bottom right,#E8F167,#8BF167,#1DAFA6);
+}
+
+/* .row3-history{
+    flex-grow: 5;
+} */
+
+.main-toast-trans-success{
+    border-width: 3px;
+    background-color: rgba(77,124,15,0.1);
+}
+
+.main-toast-trans-failed  {
+    border-width: 3px;
+    background-color: rgba(185,28,28,0.1);
+}
+
+.main-toast-budget-limit {
+    border-width: 3px;
+    background-color: rgba(194,65,12,0.1);
+}
+
+input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 1;
+    font-size: x-large;
+}
+
