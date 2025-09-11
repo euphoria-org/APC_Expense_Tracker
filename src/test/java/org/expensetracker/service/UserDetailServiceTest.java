@@ -2,60 +2,95 @@ package org.expensetracker.service;
 
 import org.expensetracker.model.users;
 import org.expensetracker.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.junit.jupiter.api.extension.ExtendWith;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserDetailServiceTest {
+
     @Mock
     private UserRepository userRepository;
+
     @Mock
     private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserDetailService userDetailService;
 
-    @Test
-    void testLoadUserByUsername_UserExists() {
-        users user = new users();
-        user.setUsername("serviceUser");
-        user.setPassword("servicePass");
-        when(userRepository.findByUsername("serviceUser")).thenReturn(user);
-        var details = userDetailService.loadUserByUsername("serviceUser");
-        assertThat(details.getUsername()).isEqualTo("serviceUser");
-        assertThat(details.getPassword()).isEqualTo("servicePass");
+    private users testUser;
+
+    @BeforeEach
+    void setUp() {
+        testUser = new users();
+        testUser.setUsername("testuser");
+        testUser.setPassword("hashedpassword");
     }
 
     @Test
-    void testLoadUserByUsername_UserNotFound() {
-        when(userRepository.findByUsername("noUser")).thenReturn(null);
-        assertThatThrownBy(() -> userDetailService.loadUserByUsername("noUser"))
-            .isInstanceOf(UsernameNotFoundException.class);
+    void loadUserByUsername_ShouldReturnUserDetails_WhenUserExists() {
+        // Arrange
+        when(userRepository.findByUsername("testuser")).thenReturn(testUser);
+
+        // Act
+        UserDetails userDetails = userDetailService.loadUserByUsername("testuser");
+
+        // Assert
+        assertNotNull(userDetails);
+        assertEquals("testuser", userDetails.getUsername());
+        assertEquals("hashedpassword", userDetails.getPassword());
+        verify(userRepository).findByUsername("testuser");
     }
 
     @Test
-    void testAddUser_NewUser() {
-        when(userRepository.findByUsername("newUser")).thenReturn(null);
-        when(passwordEncoder.encode("newPass")).thenReturn("hashedPass");
-        userDetailService.addUser("newUser", "newPass");
-        verify(userRepository).addNewUser("newUser", "hashedPass");
+    void loadUserByUsername_ShouldThrowException_WhenUserNotExists() {
+        // Arrange
+        when(userRepository.findByUsername("nonexistent")).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(UsernameNotFoundException.class, () -> {
+            userDetailService.loadUserByUsername("nonexistent");
+        });
+        
+        verify(userRepository).findByUsername("nonexistent");
     }
 
     @Test
-    void testAddUser_ExistingUser() {
-        users user = new users();
-        user.setUsername("existingUser");
-        when(userRepository.findByUsername("existingUser")).thenReturn(user);
-        userDetailService.addUser("existingUser", "anyPass");
-        verify(userRepository, never()).addNewUser(anyString(), anyString());
+    void addUser_ShouldCreateNewUser_WhenUserDoesNotExist() {
+        // Arrange
+        when(userRepository.findByUsername("newuser")).thenReturn(null);
+        when(passwordEncoder.encode("password")).thenReturn("hashedpassword");
+
+        // Act
+        userDetailService.addUser("newuser", "password");
+
+        // Assert
+        verify(userRepository).findByUsername("newuser");
+        verify(passwordEncoder).encode("password");
+        verify(userRepository).addNewUser("newuser", "hashedpassword");
+    }
+
+    @Test
+    void addUser_ShouldNotCreateUser_WhenUserAlreadyExists() {
+        // Arrange
+        when(userRepository.findByUsername("existinguser")).thenReturn(testUser);
+
+        // Act
+        userDetailService.addUser("existinguser", "password");
+
+        // Assert
+        verify(userRepository).findByUsername("existinguser");
+        verify(passwordEncoder, never()).encode(any());
+        verify(userRepository, never()).addNewUser(any(), any());
     }
 }
-

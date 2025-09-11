@@ -31,12 +31,12 @@ public class wallets {
         this.username = username;
     }
 
-    public BigDecimal getBalance() {
+    public BigDecimal getBalanace() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public void setBalanace(BigDecimal balanace) {
+        this.balance = balanace;
     }
 
     public BigDecimal getBudget() {
