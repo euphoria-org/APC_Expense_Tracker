@@ -74,7 +74,7 @@ async function performTransaction(amount, title, date, category) {
           transSuccessToast.classList.remove("hidden");
 
           const url = "http://localhost:8080/transaction";
-          const user = "rehan";
+          const user = "antithesis";
           const wallet = document.querySelector(".wallet").value;
           const transactionData = {
               "wallet_name": wallet,
