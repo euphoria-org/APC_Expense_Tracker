@@ -39,4 +39,20 @@ public class TransactionRepository {
         };
         return jdbcTemplate.query(sql,transactionRowMapper);
     }
+
+    public List<Transaction> findAll() {
+        String sql = "SELECT * FROM transactions ORDER BY transaction_date DESC";
+        RowMapper<Transaction> transactionRowMapper = (r, i) -> {
+            Transaction rowObject = new Transaction();
+            rowObject.setTransaction_id(r.getInt("transaction_id"));
+            rowObject.setTransaction_amount(r.getBigDecimal("transaction_amount"));
+            rowObject.setTransaction_title(r.getString("transaction_title"));
+            rowObject.setTransaction_category(r.getString("transaction_category"));
+            rowObject.setTransaction_date(r.getString("transaction_date"));
+            rowObject.setWallet_name(r.getString("wallet_name"));
+            rowObject.setUsername(r.getString("username"));
+            return rowObject;
+        };
+        return jdbcTemplate.query(sql, transactionRowMapper);
+    }
 }

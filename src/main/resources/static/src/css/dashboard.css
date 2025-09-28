@@ -98,3 +98,118 @@ input::-webkit-calendar-picker-indicator {
     font-size: x-large;
 }
 
+/* Transaction validation styles */
+.transaction-error {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.transaction-error::before {
+    content: "\f071";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 10px;
+}
+
+/* Transaction notification styles */
+.transaction-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideInRight 0.3s ease-out;
+    font-family: "Poppins", sans-serif;
+}
+
+.transaction-notification.success {
+    background-color: #10b981;
+    color: white;
+    border-left: 4px solid #059669;
+}
+
+.transaction-notification.error {
+    background-color: #ef4444;
+    color: white;
+    border-left: 4px solid #dc2626;
+}
+
+.transaction-notification .notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.transaction-notification .notification-content i {
+    font-size: 18px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Form input validation states */
+.m-b-r-top-form input:invalid,
+.m-b-r-top-form select:invalid {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.m-b-r-top-form input:valid,
+.m-b-r-top-form select:valid {
+    border-color: #10b981 !important;
+}
+
+/* Submit button states */
+.m-b-r-top-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #6b7280 !important;
+    color: #9ca3af !important;
+}
+
+.m-b-r-top-form-submit:disabled:hover {
+    background-color: #6b7280 !important;
+    color: #9ca3af !important;
+    transform: none;
+}
+
+/* Enhanced form field styling */
+.m-r-top-form-container {
+    position: relative;
+}
+
+.validation-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    z-index: 10;
+}
+
+.validation-icon.success {
+    color: #10b981;
+}
+
+.validation-icon.error {
+    color: #ef4444;
+}
+

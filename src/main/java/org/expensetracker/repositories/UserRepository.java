@@ -14,6 +14,6 @@ public interface UserRepository extends JpaRepository<users,Integer> {
 
     @Transactional
     @Modifying
-    @Query("INSERT INTO users (username, password_hash) VALUES (:username, :password)")
-    void addNewUser(@Param("username") String username, @Param("password") String password);
+    @Query("INSERT INTO users (username, password_hash, role) VALUES (:username, :password, :role)")
+    void addNewUser(@Param("username") String username, @Param("password") String password, @Param("role") String role);
 }

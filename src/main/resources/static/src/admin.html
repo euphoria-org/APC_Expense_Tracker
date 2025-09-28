@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Pocket-Dex</title>
+    <link rel="stylesheet" th:href="@{/src/output.css}">
+    <link rel="stylesheet" href="output.css">
+    <script src="https://kit.fontawesome.com/0010a0ae9f.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .sidebar {
+            background-color: #111111;
+            border-right: 1px solid #333333;
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: #222222;
+        }
+        .sidebar-item.active {
+            background-color: #fbbf24;
+            color: #000000;
+        }
+        .content-area {
+            background-color: #000000;
+        }
+        .table-container {
+            background-color: #111111;
+            border: 1px solid #333333;
+        }
+        .table-header {
+            background-color: #222222;
+            border-bottom: 1px solid #333333;
+        }
+        .table-row:hover {
+            background-color: #111111;
+        }
+        .loading {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 p-4">
+            <div class="logo flex items-center gap-2 text-2xl font-semibold text-yellow-400 mb-8">
+                <i class="fa-solid fa-prescription fa-lg"></i> Pocket-Dex Admin
+            </div>
+            
+            <nav class="space-y-2">
+                <div class="sidebar-item p-3 rounded cursor-pointer active" onclick="showUsers()">
+                    <i class="fa-solid fa-users mr-3"></i>
+                    Users
+                </div>
+                <div class="sidebar-item p-3 rounded cursor-pointer" onclick="showTransactions()">
+                    <i class="fa-solid fa-receipt mr-3"></i>
+                    Transactions
+                </div>
+            </nav>
+            
+            <div class="mt-auto pt-8">
+                <a href="/logout" class="flex items-center p-3 text-red-400 hover:bg-red-900 hover:text-red-300 rounded transition-all">
+                    <i class="fa-solid fa-sign-out-alt mr-3"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-area flex-1 p-6">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-yellow-400 mb-2" id="pageTitle">Users Management</h1>
+                <p class="text-gray-300" id="pageDescription">Manage all registered users in the system</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-8">
+                <i class="fa-solid fa-spinner fa-spin text-2xl loading mb-4"></i>
+                <p class="loading">Loading data...</p>
+            </div>
+
+            <!-- Users Table -->
+            <div id="usersTable" class="table-container rounded-lg overflow-hidden" style="display: none;">
+                <div class="table-header p-4">
+                    <h2 class="text-xl font-semibold text-yellow-400">All Users</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-800">
+                            <tr>
+                                <th class="p-4 text-yellow-400">Username</th>
+                                <th class="p-4 text-yellow-400">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Dynamic content will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Transactions Table -->
+            <div id="transactionsTable" class="table-container rounded-lg overflow-hidden" style="display: none;">
+                <div class="table-header p-4">
+                    <h2 class="text-xl font-semibold text-yellow-400">All Transactions</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-800">
+                            <tr>
+                                <th class="p-4 text-yellow-400">Transaction ID</th>
+                                <th class="p-4 text-yellow-400">Username</th>
+                                <th class="p-4 text-yellow-400">Wallet</th>
+                                <th class="p-4 text-yellow-400">Amount</th>
+                                <th class="p-4 text-yellow-400">Title</th>
+                                <th class="p-4 text-yellow-400">Date</th>
+                                <th class="p-4 text-yellow-400">Category</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody">
+                            <!-- Dynamic content will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="text-center py-8 text-red-400" style="display: none;">
+                <i class="fa-solid fa-exclamation-triangle text-2xl mb-4"></i>
+                <p>Error loading data. Please try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

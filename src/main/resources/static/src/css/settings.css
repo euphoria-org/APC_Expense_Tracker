@@ -11,3 +11,117 @@
 .m-b-l-c-section , .m-b-c-heading-button:hover{
     background-color: #E8F167
 }
+
+/* Settings validation styles */
+.settings-error {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: "Poppins", sans-serif;
+}
+
+.settings-error::before {
+    content: "\f071";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 10px;
+}
+
+/* Settings notification styles */
+.settings-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideInRight 0.3s ease-out;
+    font-family: "Poppins", sans-serif;
+}
+
+.settings-notification.success {
+    background-color: #10b981;
+    color: white;
+    border-left: 4px solid #059669;
+}
+
+.settings-notification.error {
+    background-color: #ef4444;
+    color: white;
+    border-left: 4px solid #dc2626;
+}
+
+.settings-notification .notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.settings-notification .notification-content i {
+    font-size: 18px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Enhanced input styling for validation states */
+.change-budget-input:invalid {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+.change-budget-input:valid {
+    border-color: #10b981 !important;
+}
+
+/* Button states */
+.m-b-c-heading-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #6b7280 !important;
+    color: #9ca3af !important;
+}
+
+.m-b-c-heading-button:disabled:hover {
+    background-color: #6b7280 !important;
+    color: #9ca3af !important;
+    transform: none;
+}
+
+/* Enhanced card styling */
+.m-b-c-card {
+    transition: all 0.3s ease;
+}
+
+.m-b-c-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Input focus states */
+.change-budget-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Success state styling */
+.budget-success {
+    border-color: #10b981 !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+}
