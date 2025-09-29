@@ -17,7 +17,7 @@
         <div class="wrap-login100">
 
 
-            <form class="login100-form validate-form border-yellow-400 flex flex-col items-center" action="/authenticate" method="post">
+            <form class="login100-form validate-form border-yellow-400 flex flex-col items-center" id="signupForm" action="/authenticate" method="post">
 
                 <div class="logo items-center gap-1 text-4xl font-semibold text-yellow-300">
                     <i class="fa-solid fa-prescription fa-lg"></i> Pocket-Dex
@@ -42,13 +42,13 @@
                 </div>
 
                 <div class="wrap-input100 validate-input border-2 rounded-xl border-yellow-300" data-validate="Password is required">
-                    <input class="input100 text-gray-300 confirm-password-input" type="password" name="password">
+                    <input class="input100 text-gray-300 confirm-password-input" type="password" name="confirmPassword">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Confirm Password</span>
                 </div>
 
                 <div class="wrap-input100 validate-input border-2 rounded-xl border-yellow-300" data-validate = "Valid email is required: ex@abc.xyz">
-                    <input class="input100 text-gray-300 budget-input" type="text" name="username" required>
+                    <input class="input100 text-gray-300 budget-input" type="text" name="budget" required>
                     <span class="focus-input100"></span>
                     <span class="label-input100 bu">Set budget</span>
                 </div>

@@ -80,4 +80,48 @@ public class WalletController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @PostMapping("/addToBudget")
+    public ResponseEntity<Map<String, Object>> addToBudget(
+            @RequestHeader @NotNull(message = "Amount is required")
+            @DecimalMin(value = "0.01", message = "Amount must be greater than 0")
+            @DecimalMax(value = "1000000", message = "Amount cannot exceed 1,000,000")
+            BigDecimal addAmount,
+            
+            @RequestHeader @NotBlank(message = "Username is required") 
+            String username,
+            
+            Authentication authentication) {
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            // Security check: ensure user can only change their own budget
+            if (!authentication.getName().equals(username)) {
+                response.put("success", false);
+                response.put("error", "Unauthorized: You can only modify your own budget");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            }
+            
+            // Additional validation: amount should be reasonable
+            if (addAmount.scale() > 2) {
+                response.put("success", false);
+                response.put("error", "Amount can have at most 2 decimal places");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            walletRepository.addToBudget(addAmount, username);
+            
+            response.put("success", true);
+            response.put("message", "Amount added to budget successfully");
+            response.put("addedAmount", addAmount);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            logger.severe("Error adding to budget: " + e.getMessage());
+            response.put("success", false);
+            response.put("error", "Failed to add to budget. Please try again.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 }

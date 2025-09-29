@@ -1,7 +1,7 @@
 // Validation patterns
 const VALIDATION_PATTERNS = {
     username: /^[a-zA-Z0-9_]{3,20}$/,
-    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
     budget: /^\d+(\.\d{1,2})?$/
 };
 
@@ -13,7 +13,7 @@ const VALIDATION_MESSAGES = {
     },
     password: {
         required: "Password is required",
-        invalid: "Password must be at least 8 characters with uppercase, lowercase, number, and special character"
+        invalid: "Password must be at least 8 characters with uppercase, lowercase, number, and one of the following special characters: @ $ ! % * # ? &"
     },
     confirmPassword: {
         required: "Please confirm your password",
@@ -286,21 +286,36 @@ submitBtn.addEventListener("click", function(event) {
         headers: headers,
     })
     .then(response => {
-        if (response.ok) {
-            showSuccessNotification("Account created successfully! Redirecting to login...");
-            setTimeout(() => {
-                window.location.href = "/login";
-            }, 2000);
-        } else if (response.status === 409) {
-            showErrorNotification("Username already exists. Please choose a different username.");
-            showValidationError(document.querySelector(".username-input"), "Username already exists");
-        } else {
-            throw new Error(`Server error: ${response.status}`);
-        }
+        return response.json().then(data => {
+            if (response.ok) {
+                showSuccessNotification("Account created successfully! Redirecting to login...");
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 2000);
+            } else {
+                if (data.error) {
+                    showErrorNotification(data.error);
+                    // Highlight specific fields based on error
+                    if (data.error.includes("Passwords do not match")) {
+                        showValidationError(document.querySelector(".confirm-password-input"), data.error);
+                    } else if (data.error.includes("Password must")) {
+                        showValidationError(document.querySelector(".password-input"), data.error);
+                    } else if (data.error.includes("Username")) {
+                        showValidationError(document.querySelector(".username-input"), data.error);
+                    } else if (data.error.includes("Budget")) {
+                        showValidationError(document.querySelector(".budget-input"), data.error);
+                    }
+                } else {
+                    showErrorNotification("An error occurred while creating your account. Please try again.");
+                }
+            }
+        }).catch(() => {
+            showErrorNotification("An error occurred while creating your account. Please try again.");
+        });
     })
     .catch(error => {
-        console.error('Error occurred:', error);
-        showErrorNotification("An error occurred while creating your account. Please try again.");
+        console.error('Network error occurred:', error);
+        showErrorNotification("A network error occurred. Please check your connection and try again.");
     })
     .finally(() => {
         // Reset button state

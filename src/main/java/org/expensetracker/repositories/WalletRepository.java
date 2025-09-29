@@ -31,4 +31,9 @@ public interface WalletRepository extends JpaRepository<wallets,String> {
     @Transactional
     @Query("UPDATE wallets w SET w.balance = (:newBudget - w.budget + w.balance) , w.budget = :newBudget  WHERE w.username = :username")
     void changeBudget(@Param("newBudget") BigDecimal newBudget, @Param("username") String username);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE wallets w SET w.balance = w.balance + :addAmount , w.budget = w.budget + :addAmount  WHERE w.username = :username")
+    void addToBudget(@Param("addAmount") BigDecimal addAmount, @Param("username") String username);
 }

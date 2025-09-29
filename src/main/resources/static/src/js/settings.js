@@ -61,6 +61,28 @@ function validateBudget(budget, currentBudget = null) {
     return { isValid: true, message: "" };
 }
 
+// Validate add amount input
+function validateAddAmount(amount) {
+    if (!amount || amount.trim() === '') {
+        return { isValid: false, message: BUDGET_MESSAGES.required };
+    }
+
+    if (!BUDGET_VALIDATION.pattern.test(amount)) {
+        return { isValid: false, message: BUDGET_MESSAGES.invalid };
+    }
+
+    const numAmount = parseFloat(amount);
+    if (numAmount < BUDGET_VALIDATION.min) {
+        return { isValid: false, message: BUDGET_MESSAGES.min };
+    }
+
+    if (numAmount > BUDGET_VALIDATION.max) {
+        return { isValid: false, message: BUDGET_MESSAGES.max };
+    }
+
+    return { isValid: true, message: "" };
+}
+
 // Show settings validation error
 function showSettingsError(inputElement, message) {
     // Remove existing error
@@ -115,6 +137,7 @@ function showSettingsNotification(message, type = 'success') {
 // Setup real-time validation for budget input
 function setupBudgetValidation() {
     const budgetInput = document.querySelector(".change-budget-input");
+    const addBudgetInput = document.querySelector(".add-budget-input");
     
     if (budgetInput) {
         budgetInput.addEventListener('blur', function() {
@@ -137,6 +160,23 @@ function setupBudgetValidation() {
             if (data && data.length > 0) {
                 budgetInput.placeholder = `Current: ${data[0].budget}`;
                 budgetInput.setAttribute('data-current-budget', data[0].budget);
+            }
+        });
+    }
+
+    if (addBudgetInput) {
+        addBudgetInput.addEventListener('blur', function() {
+            const result = validateAddAmount(this.value);
+            if (!result.isValid) {
+                showSettingsError(this, result.message);
+            } else {
+                hideSettingsError(this);
+            }
+        });
+        
+        addBudgetInput.addEventListener('input', function() {
+            if (this.value.trim()) {
+                hideSettingsError(this);
             }
         });
     }
@@ -202,6 +242,71 @@ changeBudgetBtn.addEventListener("click", async function(event) {
         // Reset button state
         changeBudgetBtn.disabled = false;
         changeBudgetBtn.textContent = originalText;
+    }
+});
+
+const addBudgetBtn = document.querySelector(".add-budget-btn");
+
+addBudgetBtn.addEventListener("click", async function(event) {
+    event.preventDefault();
+    
+    const addBudgetInput = document.querySelector(".add-budget-input");
+    const addAmount = addBudgetInput.value;
+    
+    // Validate amount
+    const validationResult = validateAddAmount(addAmount);
+    if (!validationResult.isValid) {
+        showSettingsError(addBudgetInput, validationResult.message);
+        showSettingsNotification(validationResult.message, "error");
+        return;
+    }
+    
+    // Show loading state
+    const originalText = addBudgetBtn.textContent;
+    addBudgetBtn.disabled = true;
+    addBudgetBtn.textContent = "Adding...";
+    
+    try {
+        const walletData = await getWallets();
+        if (!walletData || walletData.length === 0) {
+            throw new Error("Unable to load wallet information");
+        }
+        
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('username', walletData[0].username);
+        headers.append('addAmount', addAmount);
+        
+        const response = await fetch("http://localhost:8080/addToBudget", {
+            method: 'POST',
+            headers: headers,
+        });
+        
+        const responseData = await response.json();
+        
+        if (response.ok && responseData.success) {
+            showSettingsNotification("Amount added to budget successfully!", "success");
+            addBudgetInput.value = "";
+            // Update the change budget placeholder with new budget
+            const budgetInput = document.querySelector(".change-budget-input");
+            const newBudget = parseFloat(budgetInput.getAttribute('data-current-budget')) + parseFloat(addAmount);
+            budgetInput.placeholder = `Current: ${newBudget}`;
+            budgetInput.setAttribute('data-current-budget', newBudget);
+            hideSettingsError(addBudgetInput);
+        } else {
+            const errorMessage = responseData.error || "Failed to add to budget";
+            showSettingsError(addBudgetInput, errorMessage);
+            showSettingsNotification(errorMessage, "error");
+        }
+    } catch (error) {
+        console.error('Error adding to budget:', error);
+        const errorMessage = "Network error. Please check your connection and try again.";
+        showSettingsError(addBudgetInput, errorMessage);
+        showSettingsNotification(errorMessage, "error");
+    } finally {
+        // Reset button state
+        addBudgetBtn.disabled = false;
+        addBudgetBtn.textContent = originalText;
     }
 });
 

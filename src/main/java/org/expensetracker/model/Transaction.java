@@ -7,10 +7,8 @@ public class Transaction {
 
     private int transaction_id;
     
-    @NotBlank(message = "Username is required")
     private String username;
     
-    @NotBlank(message = "Wallet name is required")
     private String wallet_name;
     
     @NotNull(message = "Transaction amount is required")

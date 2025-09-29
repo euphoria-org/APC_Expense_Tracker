@@ -23,7 +23,7 @@ public class UserController {
     
     // Password validation pattern
     private static final java.util.regex.Pattern PASSWORD_PATTERN = java.util.regex.Pattern.compile(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
     );
     
     public UserController(UserDetailService userDetailService, WalletRepository walletRepository) {
@@ -56,7 +56,14 @@ public class UserController {
             // Validate password complexity
             if (!PASSWORD_PATTERN.matcher(password).matches()) {
                 response.put("success", false);
-                response.put("error", "Password must be at least 8 characters with uppercase, lowercase, number, and special character");
+                response.put("error", "Password must be at least 8 characters with uppercase, lowercase, number, and one of the following special characters: @ $ ! % * # ? &");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            // Validate password confirmation
+            if (confirmPassword == null || !password.equals(confirmPassword)) {
+                response.put("success", false);
+                response.put("error", "Passwords do not match");
                 return ResponseEntity.badRequest().body(response);
             }
             

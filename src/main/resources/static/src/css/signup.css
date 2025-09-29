@@ -615,3 +615,38 @@ input.input100 {
   background: #333333;
   color: #fff;
 }
+
+/*==================================================================
+[ Notifications ]*/
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+.notification.success {
+  background-color: #10b981; /* green */
+}
+
+.notification.error {
+  background-color: #ef4444; /* red */
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification-content i {
+  font-size: 18px;
+}
