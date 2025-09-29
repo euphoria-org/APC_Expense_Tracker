@@ -1,21 +1,24 @@
 package org.expensetracker.controller;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import org.expensetracker.model.wallets;
 import org.expensetracker.repositories.WalletRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class WalletControllerTest {
@@ -48,12 +51,14 @@ class WalletControllerTest {
         when(walletRepository.getWalletByUsername("testuser")).thenReturn(expectedWallets);
 
         // Act
-        List<wallets> result = walletController.getWalletsByUsername(authentication);
+        var response = walletController.getWalletsByUsername(authentication);
 
         // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(testWallet, result.get(0));
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals(testWallet, response.getBody().get(0));
         verify(walletRepository).getWalletByUsername("testuser");
     }
 
@@ -64,9 +69,17 @@ class WalletControllerTest {
         String username = "testuser";
 
         // Act
-        walletController.changeBudget(newBudget, username);
+        when(authentication.getName()).thenReturn(username);
+
+        var response = walletController.changeBudget(newBudget, username, authentication);
 
         // Assert
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        Map<String, Object> body = response.getBody();
+        assertNotNull(body);
+        assertEquals(Boolean.TRUE, body.get("success"));
+        assertEquals(newBudget, body.get("newBudget"));
         verify(walletRepository).changeBudget(newBudget, username);
     }
 
@@ -77,11 +90,13 @@ class WalletControllerTest {
         when(walletRepository.getWalletByUsername("userwithnowallet")).thenReturn(Arrays.asList());
 
         // Act
-        List<wallets> result = walletController.getWalletsByUsername(authentication);
+        var response = walletController.getWalletsByUsername(authentication);
 
         // Assert
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertNotNull(response);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
         verify(walletRepository).getWalletByUsername("userwithnowallet");
     }
 }

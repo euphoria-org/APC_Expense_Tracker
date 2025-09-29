@@ -1,17 +1,19 @@
 package org.expensetracker.controller;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.expensetracker.repositories.WalletRepository;
 import org.expensetracker.service.UserDetailService;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
@@ -29,14 +31,19 @@ class UserControllerTest {
     void addUser_ShouldCreateUserAndWallet_WhenValidData() {
         // Arrange
         String username = "newuser";
-        String password = "password123";
+        String password = "StrongP@ss1";
         String walletName = "mywallet";
         BigDecimal budget = new BigDecimal("1000.00");
+        String confirmPassword = "StrongP@ss1";
 
         // Act
-        userController.addUser(username, password, walletName, budget);
+        var response = userController.addUser(username, password, walletName, budget, confirmPassword);
 
         // Assert
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        Map<String, Object> body = response.getBody();
+        assertNotNull(body);
+        assertEquals(Boolean.TRUE, body.get("success"));
         verify(userDetailService).addUser(username, password);
         verify(walletRepository).addWallet(walletName, username, budget, budget);
     }
@@ -45,14 +52,16 @@ class UserControllerTest {
     void addUser_ShouldSetBalanceEqualToBudget() {
         // Arrange
         String username = "testuser";
-        String password = "testpass";
+        String password = "ValidP@ss2";
         String walletName = "testwallet";
         BigDecimal budget = new BigDecimal("500.00");
+        String confirmPassword = "ValidP@ss2";
 
         // Act
-        userController.addUser(username, password, walletName, budget);
+        var response = userController.addUser(username, password, walletName, budget, confirmPassword);
 
         // Assert
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         // Verify that balance is set equal to budget (as seen in the controller logic)
         verify(walletRepository).addWallet(walletName, username, budget, budget);
     }
@@ -61,14 +70,16 @@ class UserControllerTest {
     void addUser_ShouldHandleZeroBudget() {
         // Arrange
         String username = "zerouser";
-        String password = "pass";
+        String password = "ZeroP@ss3";
         String walletName = "zerowallet";
         BigDecimal budget = BigDecimal.ZERO;
+        String confirmPassword = "ZeroP@ss3";
 
         // Act
-        userController.addUser(username, password, walletName, budget);
+        var response = userController.addUser(username, password, walletName, budget, confirmPassword);
 
         // Assert
+        assertTrue(response.getStatusCode().is2xxSuccessful());
         verify(userDetailService).addUser(username, password);
         verify(walletRepository).addWallet(walletName, username, budget, budget);
     }

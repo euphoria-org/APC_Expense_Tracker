@@ -4,6 +4,9 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(20) DEFAULT 'USER'
 );
 
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'USER';
+
 CREATE TABLE IF NOT EXISTS wallets (
     wallet_name VARCHAR(50) PRIMARY KEY,
     username VARCHAR(100) REFERENCES users(username),
@@ -21,5 +24,6 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_category VARCHAR(50) NOT NULL
 );
 
--- Insert default admin user
-INSERT INTO users (username, password_hash, role) VALUES ('admin', '$2a$10$8aUu/DCwhRcHx8uwG.E4TeglD5Kes9zc3pIEf52Z6WE3Z9gWatr5K', 'ADMIN') ON CONFLICT (username) DO NOTHING;
+INSERT INTO users (username, password_hash, role)
+SELECT 'admin', '$2a$10$8aUu/DCwhRcHx8uwG.E4TeglD5Kes9zc3pIEf52Z6WE3Z9gWatr5K', 'ADMIN'
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'admin');

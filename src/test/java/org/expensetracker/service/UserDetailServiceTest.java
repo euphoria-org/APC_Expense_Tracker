@@ -2,19 +2,22 @@ package org.expensetracker.service;
 
 import org.expensetracker.model.users;
 import org.expensetracker.repositories.UserRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserDetailServiceTest {
@@ -61,7 +64,7 @@ class UserDetailServiceTest {
         assertThrows(UsernameNotFoundException.class, () -> {
             userDetailService.loadUserByUsername("nonexistent");
         });
-        
+
         verify(userRepository).findByUsername("nonexistent");
     }
 
@@ -77,7 +80,7 @@ class UserDetailServiceTest {
         // Assert
         verify(userRepository).findByUsername("newuser");
         verify(passwordEncoder).encode("password");
-        verify(userRepository).addNewUser("newuser", "hashedpassword");
+        verify(userRepository).addNewUser("newuser", "hashedpassword", "USER");
     }
 
     @Test
@@ -91,6 +94,6 @@ class UserDetailServiceTest {
         // Assert
         verify(userRepository).findByUsername("existinguser");
         verify(passwordEncoder, never()).encode(any());
-        verify(userRepository, never()).addNewUser(any(), any());
+        verify(userRepository, never()).addNewUser(any(), any(), any());
     }
 }
